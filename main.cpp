@@ -152,3 +152,28 @@ bool nuskaityti(string kategorija[], string pavadinimas[], double kaina[], int k
     in.close();
     return true;
 }
+double eilutesSuma(double kaina, int kiekis) {
+    return kaina * kiekis;
+}
+
+double nuolaida(double suma, int kiekis) {
+    if (kiekis >= 10) {
+        return suma * 0.10;
+    }
+    else {
+        return 0;
+    }
+}
+
+double kategorijosSuma(string kategorija[], double kaina[], int kiekis[], int n, string pasirinkta) {
+    double suma = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (kategorija[i] == pasirinkta) {
+            double eilute = eilutesSuma(kaina[i], kiekis[i]);
+            suma = suma + eilute - nuolaida(eilute, kiekis[i]);
+        }
+    }
+
+    return suma;
+}
