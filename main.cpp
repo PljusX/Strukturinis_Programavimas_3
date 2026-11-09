@@ -72,3 +72,15 @@ int main() {
 
     return 0;
 }
+
+void meniu() {
+    cout << "\n========== DVIRACIU PARDUOTUVE ==========\n";
+    cout << "1. Perziureti visas uzsakymo prekes\n";
+    cout << "2. Perziureti pasirinktos kategorijos prekes\n";
+    cout << "3. Perziureti viso uzsakymo sumas\n";
+    cout << "4. Perziureti sumas pagal kategorijas\n";
+    cout << "5. Parodyti visa uzsakymo ataskaita\n";
+    cout << "6. Issaugoti ataskaita i faila\n";
+    cout << "7. Iseiti\n";
+    cout << "Pasirinkite: ";
+}
