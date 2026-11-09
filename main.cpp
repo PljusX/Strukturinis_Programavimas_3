@@ -84,3 +84,71 @@ void meniu() {
     cout << "7. Iseiti\n";
     cout << "Pasirinkite: ";
 }
+
+bool nuskaityti(string kategorija[], string pavadinimas[], double kaina[], int kiekis[], int &n) {
+    ifstream in("uzsakymas.txt");
+
+    if (!in) {
+        cout << "Nepavyko atidaryti uzsakymas.txt failo!\n";
+        return false;
+    }
+
+    if (!(in >> n)) {
+        cout << "Nepavyko nuskaityti prekiu irasu skaiciaus!\n";
+        in.close();
+        return false;
+    }
+
+    in.ignore(1000, '\n');
+
+    if (n < 1 || n > 100) {
+        cout << "Prekiu irasu skaicius turi buti nuo 1 iki 100!\n";
+        in.close();
+        return false;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (!getline(in, kategorija[i], ';') || !getline(in, pavadinimas[i], ';')) {
+            cout << "Nepavyko nuskaityti " << i + 1 << " prekes duomenu!\n";
+            in.close();
+            return false;
+        }
+
+        if (kategorija[i] != "Dviraciai" && kategorija[i] != "Dalys" && kategorija[i] != "Aksesuarai") {
+            cout << i + 1 << " prekes kategorija netinkama!\n";
+            in.close();
+            return false;
+        }
+
+        if (!(in >> kaina[i])) {
+            cout << i + 1 << " prekes kaina netinkama!\n";
+            in.close();
+            return false;
+        }
+
+        if (kaina[i] <= 0) {
+            cout << i + 1 << " prekes kaina turi buti didesne uz 0!\n";
+            in.close();
+            return false;
+        }
+
+        in.ignore(1000, ';');
+
+        if (!(in >> kiekis[i])) {
+            cout << i + 1 << " prekes kiekis turi buti teigiamas sveikasis skaicius!\n";
+            in.close();
+            return false;
+        }
+
+        if (kiekis[i] <= 0) {
+            cout << i + 1 << " prekes kiekis turi buti didesnis uz 0!\n";
+            in.close();
+            return false;
+        }
+
+        in.ignore(1000, '\n');
+    }
+
+    in.close();
+    return true;
+}
