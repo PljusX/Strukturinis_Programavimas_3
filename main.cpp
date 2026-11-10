@@ -323,3 +323,66 @@ void ataskaita(string kategorija[], string pavadinimas[], double kaina[], int ki
     cout << "Dalys: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Dalys") << " Eur\n";
     cout << "Aksesuarai: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Aksesuarai") << " Eur\n";
 }
+
+void issaugoti(string kategorija[], string pavadinimas[], double kaina[], int kiekis[], int n) {
+    if (n == 0) {
+        cout << "NERA PREKIU, ISSAUGPITEI PREKIU NEGALIU!\n";
+        return;
+    }
+
+    ofstream out("ataskaita.txt");
+
+    if (!out) {
+        cout << "Nepavyko sukirti ataskaitos, kreipkites i VMI\n";
+        return;
+    }
+
+    double suma = 0;
+    double nuolaidos = 0;
+
+    out << "\n========== DVIRACIU PARDUOTUVES ATASKAITA ==========\n";
+    out << left << setw(13) << "Kategorija";
+    out << left << setw(50) << "Pavadinimas";
+    out << right << setw(10) << "Kaina";
+    out << setw(8) << "Kiekis";
+    out << setw(12) << "Suma";
+    out << setw(12) << "Nuolaida";
+    out << setw(12) << "Moketi" << endl;
+
+    for (int i = 0; i < n; i++) {
+        double eilute = eilutesSuma(kaina[i], kiekis[i]);
+        double nuol = nuolaida(eilute, kiekis[i]);
+
+        out << fixed << setprecision(2);
+        out << left << setw(13) << kategorija[i];
+        out << left << setw(50) << pavadinimas[i];
+        out << right << setw(10) << kaina[i];
+        out << setw(8) << kiekis[i];
+        out << setw(12) << eilute;
+        out << setw(12) << nuol;
+        out << setw(12) << eilute - nuol << endl;
+
+        suma = suma + eilute;
+        nuolaidos = nuolaidos + nuol;
+    }
+
+    out << fixed << setprecision(2);
+    out << "\nSuma pries nuolaidas: " << suma << " Eur\n";
+    out << "Bendra nuolaidu suma: " << nuolaidos << " Eur\n";
+    out << "Galutine moketina suma: " << suma - nuolaidos << " Eur\n";
+    out << "\nSUMOS PAGAL KATEGORIJAS\n";
+    out << "Dviraciai: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Dviraciai") << " Eur\n";
+    out << "Dalys: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Dalys") << " Eur\n";
+    out << "Aksesuarai: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Aksesuarai") << " Eur\n";
+
+    out.close();
+
+    if (!out) {
+        cout << "Nepavyko irasyti atasakktaios\n";
+    }
+    else {
+        cout << "Atsakaita issaugota :)!\n";
+    }
+}
+// g++ treciamain.cpp -o programa.exe && .\programa.exe
+// cia sau.
