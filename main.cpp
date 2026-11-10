@@ -272,3 +272,54 @@ void pasirinktaKategorija(string kategorija[], string pavadinimas[], double kain
              << kategorijosSuma(kategorija, kaina, kiekis, n, pasirinkta) << " Eur\n";
     }
 }
+
+void uzsakymoSumos(double kaina[], int kiekis[], int n) {
+    double suma = 0;
+    double nuolaidos = 0;
+
+    for (int i = 0; i < n; i++) {
+        double eilute = eilutesSuma(kaina[i], kiekis[i]);
+        suma = suma + eilute;
+        nuolaidos = nuolaidos + nuolaida(eilute, kiekis[i]);
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "\nSuma pries nuolaidas: " << suma << " Eur\n";
+    cout << "Bendra nuolaidu suma: " << nuolaidos << " Eur\n";
+    cout << "Galutine moketina suma: " << suma - nuolaidos << " Eur\n";
+}
+
+void ataskaita(string kategorija[], string pavadinimas[], double kaina[], int kiekis[], int n) {
+    if (n == 0) {
+        cout << "Nera prekiuuu, ataskaitos nebus\n";
+        return;
+    }
+
+    double suma = 0;
+    double nuolaidos = 0;
+
+    cout << "\n========== DVIRACIU PARDUOTUVES ATASKAITA ==========\n";
+    cout << left << setw(13) << "Kategorija";
+    cout << left << setw(50) << "Pavadinimas";
+    cout << right << setw(10) << "Kaina";
+    cout << setw(8) << "Kiekis";
+    cout << setw(12) << "Suma";
+    cout << setw(12) << "Nuolaida";
+    cout << setw(12) << "Moketi" << endl;
+
+    for (int i = 0; i < n; i++) {
+        spausdintiPreke(kategorija[i], pavadinimas[i], kaina[i], kiekis[i]);
+        double eilute = eilutesSuma(kaina[i], kiekis[i]);
+        suma = suma + eilute;
+        nuolaidos = nuolaidos + nuolaida(eilute, kiekis[i]);
+    }
+
+    cout << fixed << setprecision(2);
+    cout << "\nSuma pries nuolaidas: " << suma << " Eur\n";
+    cout << "Bendra nuolaidu suma: " << nuolaidos << " Eur\n";
+    cout << "Galutine moketina suma: " << suma - nuolaidos << " Eur\n";
+    cout << "\nSUMOS PAGAL KATEGORIJAS\n";
+    cout << "Dviraciai: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Dviraciai") << " Eur\n";
+    cout << "Dalys: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Dalys") << " Eur\n";
+    cout << "Aksesuarai: " << kategorijosSuma(kategorija, kaina, kiekis, n, "Aksesuarai") << " Eur\n";
+}
