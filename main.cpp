@@ -177,3 +177,98 @@ double kategorijosSuma(string kategorija[], double kaina[], int kiekis[], int n,
 
     return suma;
 }
+void spausdintiPreke(string kategorija, string pavadinimas, double kaina, int kiekis) {
+    double suma = eilutesSuma(kaina, kiekis);
+    double nuol = nuolaida(suma, kiekis);
+
+    cout << fixed << setprecision(2);
+    cout << left << setw(13) << kategorija;
+    cout << left << setw(50) << pavadinimas;
+    cout << right << setw(10) << kaina;
+    cout << setw(8) << kiekis;
+    cout << setw(12) << suma;
+    cout << setw(12) << nuol;
+    cout << setw(12) << suma - nuol << endl;
+}
+
+void visosPrekes(string kategorija[], string pavadinimas[], double kaina[], int kiekis[], int n) {
+    if (n == 0) {
+        cout << "Prekiu nera!\n";
+        return;
+    }
+
+    cout << "\n========== VISOS PREKES ==========\n";
+    cout << left << setw(13) << "Kategorija";
+    cout << left << setw(50) << "Pavadinimas";
+    cout << right << setw(10) << "Kaina";
+    cout << setw(8) << "Kiekis";
+    cout << setw(12) << "Suma";
+    cout << setw(12) << "Nuolaida";
+    cout << setw(12) << "Moketi" << endl;
+
+    for (int i = 0; i < n; i++) {
+        spausdintiPreke(kategorija[i], pavadinimas[i], kaina[i], kiekis[i]);
+    }
+}
+
+void pasirinktaKategorija(string kategorija[], string pavadinimas[], double kaina[], int kiekis[], int n) {
+    int pasirinkimas;
+    string pasirinkta;
+    bool rasta = false;
+
+    cout << "\n1. Dviraciai\n";
+    cout << "2. Dalys\n";
+    cout << "3. Aksesuarai\n";
+    cout << "Pasirinkite kategorija: ";
+
+    while (true) {
+        if (!(cin >> pasirinkimas)) {
+            cout << "Iveskite skaiciu nuo 1 iki 3: ";
+            cin.clear();
+            cin.ignore(69, '\n');
+        }
+        else if (pasirinkimas < 1 || pasirinkimas > 3) {
+            cout << "Ne ta knopke, bandyk dar kita : ";
+        }
+        else {
+            break;
+        }
+    }
+
+    if (pasirinkimas == 1) {
+        pasirinkta = "Dviraciai";
+    }
+    else if (pasirinkimas == 2) {
+        pasirinkta = "Dalys";
+    }
+    else {
+        pasirinkta = "Aksesuarai";
+    }
+
+    cout << "\nKategorija: " << pasirinkta << endl;
+
+    for (int i = 0; i < n; i++) {
+        if (kategorija[i] == pasirinkta) {
+            if (rasta == false) {
+                cout << left << setw(13) << "Kategorija";
+                cout << left << setw(50) << "Pavadinimas";
+                cout << right << setw(10) << "Kaina";
+                cout << setw(8) << "Kiekis";
+                cout << setw(12) << "Suma";
+                cout << setw(12) << "Nuolaida";
+                cout << setw(12) << "Moketi" << endl;
+                rasta = true;
+            }
+
+            spausdintiPreke(kategorija[i], pavadinimas[i], kaina[i], kiekis[i]);
+        }
+    }
+
+    if (rasta == false) {
+        cout << "Kategorija neturi prekiu\n";
+    }
+    else {
+        cout << "\nKategorijos moketina suma: " << fixed << setprecision(2)
+             << kategorijosSuma(kategorija, kaina, kiekis, n, pasirinkta) << " Eur\n";
+    }
+}
